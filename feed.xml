@@ -4,7 +4,7 @@
 		<title>Allen Eubank | Thoughts and Essays</title>
 		<description>Allen Eubank is a problem solver, code loving, and genuinely curious person. Here Allen Eubank documents problems, code, and ideas of interest.</description>		
 		<link>https://alleneubank.com</link>
-		<atom:link href="https://alleneubank.com/feed.xml" rel="self" type="application/rss+xml" />
+		<atom:link href="http://www.alleneubank.com/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>An Introduction to Meteor JS</title>
@@ -15,8 +15,8 @@
 </description>
 				
 				<pubDate>Sat, 30 May 2015 00:00:00 -0700</pubDate>
-				<link>https://alleneubank.com/2015/05/30/intro-to-meteor.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/2015/05/30/intro-to-meteor.html</guid>
+				<link>http://www.alleneubank.com/2015/05/30/intro-to-meteor.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/2015/05/30/intro-to-meteor.html</guid>
 			</item>
 		
 			<item>
@@ -29,8 +29,8 @@
 </description>
 				
 				<pubDate>Tue, 03 Feb 2015 00:00:00 -0800</pubDate>
-				<link>https://alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</guid>
+				<link>http://www.alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</guid>
 			</item>
 		
 			<item>
@@ -43,8 +43,8 @@
 </description>
 				
 				<pubDate>Thu, 22 Jan 2015 00:00:00 -0800</pubDate>
-				<link>https://alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</guid>
+				<link>http://www.alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</guid>
 			</item>
 		
 			<item>
@@ -57,8 +57,8 @@
 </description>
 				
 				<pubDate>Fri, 09 Jan 2015 00:00:00 -0800</pubDate>
-				<link>https://alleneubank.com/essays/asking-why</link>
-				<guid isPermaLink="true">https://alleneubank.com/essays/asking-why</guid>
+				<link>http://www.alleneubank.com/essays/asking-why</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/essays/asking-why</guid>
 			</item>
 		
 			<item>
@@ -71,8 +71,8 @@
 </description>
 				
 				<pubDate>Tue, 06 Jan 2015 00:00:00 -0800</pubDate>
-				<link>https://alleneubank.com/essays/google-inbox-for-productivity</link>
-				<guid isPermaLink="true">https://alleneubank.com/essays/google-inbox-for-productivity</guid>
+				<link>http://www.alleneubank.com/essays/google-inbox-for-productivity</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/essays/google-inbox-for-productivity</guid>
 			</item>
 		
 			<item>
@@ -84,8 +84,8 @@
 </description>
 				
 				<pubDate>Sat, 08 Nov 2014 00:00:00 -0800</pubDate>
-				<link>https://alleneubank.com/essays/learning-a-new-framework-meteor</link>
-				<guid isPermaLink="true">https://alleneubank.com/essays/learning-a-new-framework-meteor</guid>
+				<link>http://www.alleneubank.com/essays/learning-a-new-framework-meteor</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/essays/learning-a-new-framework-meteor</guid>
 			</item>
 		
 			<item>
@@ -97,8 +97,8 @@
 </description>
 				
 				<pubDate>Tue, 17 Jun 2014 00:00:00 -0700</pubDate>
-				<link>https://alleneubank.com/web-development-with-grunt.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/web-development-with-grunt.html</guid>
+				<link>http://www.alleneubank.com/web-development-with-grunt.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/web-development-with-grunt.html</guid>
 			</item>
 		
 			<item>
@@ -110,8 +110,8 @@
 </description>
 				
 				<pubDate>Fri, 13 Jun 2014 00:00:00 -0700</pubDate>
-				<link>https://alleneubank.com/debut-milan-eubank-wedding-site.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/debut-milan-eubank-wedding-site.html</guid>
+				<link>http://www.alleneubank.com/debut-milan-eubank-wedding-site.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/debut-milan-eubank-wedding-site.html</guid>
 			</item>
 		
 			<item>
@@ -125,8 +125,8 @@ CSS, JavaScript, Java, C#, Cold Fusion, and Ruby. I learned a great deal while I
 </description>
 				
 				<pubDate>Mon, 05 Aug 2013 00:00:00 -0700</pubDate>
-				<link>https://alleneubank.com/essays/2013/08/05/hello-world.html</link>
-				<guid isPermaLink="true">https://alleneubank.com/essays/2013/08/05/hello-world.html</guid>
+				<link>http://www.alleneubank.com/essays/2013/08/05/hello-world.html</link>
+				<guid isPermaLink="true">http://www.alleneubank.com/essays/2013/08/05/hello-world.html</guid>
 			</item>
 		
 	</channel>
