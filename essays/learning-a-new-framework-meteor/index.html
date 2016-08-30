@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | Learning a new framework, Meteor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta property="og:url" content="https://alleneubank.com/essays/learning-a-new-framework-meteor" />
+    <meta property="og:title" content="Allen Eubank | Learning a new framework, Meteor" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative; left: -100%;">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>Learning a new framework, Meteor</h2>
+<p class="meta">08 Nov 2014</p>
+<p></p>
+
+<div class="post">
+<p>Recently, I found a new framework, <a href="http://meteor.com">Meteor</a>. I went through the free chapters of the Discover Meteor book. The chapters consisted of the basic CRUD principles in a Meteor application. Here is the README verbatim from the GitHub repository which you can find here <a href="https://github.com/adeubank/adej-microscope">adej-microscope</a>. You can find the application running on <a href="http://adej-microscope.alleneubank.com">http://adej-microscope.alleneubank.com</a>.</p>
+
+<hr />
+
+<h4 id="meteor-walkthrough">Meteor Walkthrough</h4>
+
+<p>I am learning meteor! I created this project to demonstrate the book and the code it provides. I will also be using this file to take notes.</p>
+
+<h4 id="project-structure">Project Structure</h4>
+
+<ul>
+  <li>The <code>/server</code> directory contains code that only runs on the server.</li>
+  <li>The <code>/client</code> directory contains code that only runs on the client.</li>
+  <li>Everything else runs both on the client and the server</li>
+  <li>Static assets go in the <code>/public</code></li>
+</ul>
+
+<h5 id="load-order">Load order</h5>
+
+<ol>
+  <li>Files in <code>/lib</code>  load before everything else</li>
+  <li>All <code>main.*</code> files loaded right after.</li>
+  <li>Alphabetical order</li>
+</ol>
+
+<h5 id="dependencies">Dependencies</h5>
+
+<p>The <code>.meteor</code> directory contains meteor specific code. Try not to modify things in here too much. The only exceptions are <code>.meteor/packages</code> and <code>.meteor/release</code> files. These files list the packages and the version of meteor in use.</p>
+
+<h4 id="deploying-to-stagingproduction">Deploying to staging/production</h4>
+
+<p>Thus far the options when it comes to deploying meteor applications are hosting it on meteor.com, using modulus, and your own private server.</p>
+
+<h5 id="hosting-on-meteor">Hosting on meteor</h5>
+
+<p>Meteor takes care of deploying to staging for you.</p>
+
+<div class="highlight"><pre><code class="bash">meteor deploy adej-microscope.meteor.com</code></pre></div>
+
+<p>This command hosts it on meteors servers. Simple, easy. You just need a meteor developer account.</p>
+
+<h5 id="private-server-meteor-up-mup">Private server (meteor up, mup)</h5>
+
+<div class="highlight"><pre><code class="bash">npm install -g mup
+mkdir ./adej-microscope-deploy
+<span class="nb">echo</span> <span class="s2">&quot;adej-microscope-deploy&quot;</span> &gt;&gt; .gitignore
+<span class="nb">cd</span> ./adej-microscope-deploy
+mup init</code></pre></div>
+
+<p>MUP creates two files for you. <code>settings.json</code> and <code>mup.json</code>. Inside <code>settings.json</code> you find the all the application related settings. <code>mup.json</code> holds the deployment settings. Fill in the <code>settings.json</code>.</p>
+
+<p>Deploying to the private server turned out to be easy. If you don’t feel like hosting the application on port 80. I hosted mine on 8000 and used Nginx to proxy the requests.</p>
+
+<div class="highlight"><pre><code class="bash">server <span class="o">{</span>
+  listen 80<span class="p">;</span>
+  server_name adej-microscope.alleneubank.com<span class="p">;</span>
+
+  location / <span class="o">{</span>
+    proxy_pass http://localhost:8000<span class="p">;</span>
+    proxy_set_header X-Real-IP <span class="nv">$remote_addr</span><span class="p">;</span>  <span class="c"># http://wiki.nginx.org/HttpProxyModule</span>
+    proxy_http_version 1.1<span class="p">;</span>  <span class="c"># recommended for keep-alive connections per http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version</span>
+    proxy_set_header Upgrade <span class="nv">$http_upgrade</span><span class="p">;</span>
+    proxy_set_header Connection <span class="s2">&quot;upgrade&quot;</span><span class="p">;</span>
+    proxy_set_header Host <span class="nv">$host</span><span class="p">;</span>
+  <span class="o">}</span>
+  location ~* <span class="s2">&quot;^/[a-z0-9]{40}\.(css|js)$&quot;</span> <span class="o">{</span>
+    root /opt/app-name/app/programs/web.browser/<span class="p">;</span>
+    access_log off<span class="p">;</span>
+    expires max<span class="p">;</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="bash">mup setup
+
+mup deploy</code></pre></div>
+
+<h4 id="templates">Templates</h4>
+
+<p>Meteor uses Spacebars to handle templating. Spacebars is HTML with some additions. The additions allow the including partials, expressions and block helpers.</p>
+
+<p>Helpers give templates the power to give templates logic and massage data into the view correctly. A helper is created by adding a new key to meteors special variable named <code>Template</code>.  Every named template is added to the <code>Template</code> variable. Then when adding a helper to a named template value, it makes that custom helper available to the HTML file.</p>
+
+<h4 id="colllections">Colllections</h4>
+
+<p>A special data structure that is permanently stored on the server side in the database. It is synchronized with each user’s browser.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">Posts</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mongo</span><span class="p">.</span><span class="nx">Collection</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">);</span> <span class="c1">// Creating a Mongo collection</span></code></pre></div>
+
+<p>Meteor synchronizes data across users by using browser memory, browser’s local storage, and the database.</p>
+
+<p>Meteor uses the <code>autopublish</code> package to sync the whole database with each connected client. It is not meant for production environments. To publish <code>Posts</code> so that they are available requires using the <code>publish/subscribe</code> which takes the collection name.</p>
+
+<h4 id="publications-and-subscriptions">Publications and Subscriptions</h4>
+
+<p>In meteor, publishing makes records in the database available to the client. This is how you lock down your application. You only publish what you want the client to see. Parameterized publications allow the client to retrieve subsets of the database which allows for scalability.</p>
+
+<p>The <code>Autopublish</code> takes care of publishing and subscribing by automatically including all the data on the server on the client.</p>
+
+<h4 id="routing">Routing</h4>
+
+<p>Meteor uses a package called iron routing to handle routing within the application. Iron routing matches URL paths to template names. Iron routing has a special variable named <code>Routing</code> that allows you to configure the application.</p>
+
+<p>It is important to make sure that the application has loaded it’s data before rendering the templates. Iron routing provides the <code>waitOn</code> configuration. Here is where the client subscriptions go.</p>
+
+<p>Another important aspect of routing is defining the URL path. You are able to pass in parameters through the path. Through the data property on the routing configuration allows you to specify which data is passed to the template. It also makes it easy to specify what happens when a path doesn’t match to resource within your application.</p>
+
+<h4 id="session">Session</h4>
+
+<p>Meteor has a special variable on the client named, <code>Session</code>. This variable is reactive meaning when it changes it automatically causes the templates to update and show the changes.</p>
+
+<p>Most of the code provided by Meteor is reactive. Which means that when data changes the view is updated to reflect those changes. For the regular JavaScript code that isn’t part of Meteor we have <code>Tracker.autorun</code>. Functions that are executed under autorun are set to run every time any reactive data sources are updated inside the functions scope.</p>
+
+<h4 id="adding-users">Adding Users</h4>
+
+<p>Users are easily added with the <code>ui-account</code> package and <code>account-password</code>.</p>
+
+<h4 id="reactivity">Reactivity</h4>
+
+<p>Meteor has data sources that fire callbacks when they are changed. Meteor calls this reactivity. It accomplishes this with <code>computations</code>. We could manually accomplish this by binding an <code>observe</code> function on top of a data source. Then we could do the heavy lifting of what happens on certain callbacks.</p>
+
+<h4 id="creating-posts">Creating Posts</h4>
+
+<p>Meteor uses JavaScript to create models. There is no need to send any POST data to the server. Meteor takes care of everything else. When developing production applications remember to remove the <code>insecure</code> package.</p>
+
+<p>The <code>allow</code> method is what determines if a model can be created or not.</p>
+
+<p>A Meteor <code>method</code> is a function that runs on the server and is able to be called on the client. It is useful for model validations. You use Meteor <code>method</code> and use <code>call</code> to execute a named method.</p>
+
+<h5 id="security-checks">Security Checks</h5>
+
+<p>Meteor allows for checking if a new record matches certain criteria. It uses a Meteor <code>method</code> combined with <code>audit-argument-checks</code> to validate that the models attributes match property types.</p>
+
+<h4 id="latency-compensation">Latency Compensation</h4>
+
+<p>Meteor handles events differently than other frameworks. When a user submits a form it is handled by the client and the server. This way the client is able to simulate the response from the server and update its UI. When the server does finally return it updates the UI to accurately reflect the response.</p>
+
+</div>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+    
+  </body>
+</html>

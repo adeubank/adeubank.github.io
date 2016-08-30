@@ -1,0 +1,14 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  <h1 class="page-heading">Allen Eubank's Website</h1>
+  
+  {% capture welcome %}{% include welcome.markdown %}{% endcapture %}
+  {{ welcome | markdownify }}
+
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+
+</div>

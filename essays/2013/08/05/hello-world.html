@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hello world! I left my job at Brighter Collective!">
+    <meta property="og:url" content="https://alleneubank.com/essays/2013/08/05/hello-world.html" />
+    <meta property="og:title" content="Allen Eubank | Hello World" />
+    <meta property="og:description" content="Hello world! I left my job at Brighter Collective!" />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative; left: -100%;">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>Hello World</h2>
+<p class="meta">05 Aug 2013</p>
+<p>Hello world! I left my job at Brighter Collective!</p>
+
+<div class="post">
+<p>Welcome! Up until recently I was working full-time as a web developer at
+<a href="http://www.brightercollective.com">Brighter</a>. Where I was programming in HTML,
+CSS, JavaScript, Java, C#, Cold Fusion, and Ruby. I learned a great deal while I was there but now I am looking to get out there on my own.</p>
+
+<p>Well if you are reading this far along, I guess I can show something I learned
+while building this relatively simple web site. Here we go.</p>
+
+<p><br /></p>
+
+<p>While I was building this site I ran across the problem of having the main,
+center content of the site not using all the space available.  Even though
+I had set everything to a height of 100%, it would simply not fill the height of
+browser. Here is what I am talking about.</p>
+
+<p><br /></p>
+
+<p><strong>Before</strong>
+<br />
+<img alt="Screenshot of problem" src="/images/2013-08-05-before.png" /></p>
+
+<p><br /></p>
+
+<p>I thought I might be able to solve this problem with some CSS.</p>
+
+<div class="highlight"><pre><code class="css"><span class="nc">.content</span> <span class="p">{</span>
+  <span class="k">padding-bottom</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p><br /></p>
+
+<p>Which did work but it added a lot of extra, empty space at the bottom of page.
+It was not sexy. Did some googling and came across this <a href="http://stackoverflow.com/questions/90178/make-a-div-fill-the-remaining-screen-space?rq=1">Stack
+Overflow
+post</a>.</p>
+
+<p>A ha! I was surprised that a simple CSS solution did not exist. Which took me
+to my javascript solution.</p>
+
+<p><br /></p>
+
+<p>A la code…
+<br /></p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">setContentHeight</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// Grab the height of the viewport or the height of the visible screen</span>
+  <span class="kd">var</span> <span class="nx">viewportHeight</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">clientHeight</span>
+  <span class="c1">// Grab the height of my content div that I want to fix</span>
+  <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="c1">// If the height of the visible space is greater than my contents</span>
+  <span class="c1">// height increase it to fill the remaining space.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">viewportHeight</span> <span class="o">&gt;</span> <span class="nx">content</span><span class="p">.</span><span class="nx">clientHeight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Doesn&#39;t understand unitless numbers, use pixels instead</span>
+    <span class="nx">content</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">viewportHeight</span> <span class="o">+</span> <span class="s2">&quot;px&quot;</span>
+  <span class="p">}</span>
+
+  <span class="nx">setTimeout</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="c1">// Set a small timeout for the resize event</span>
+<span class="p">}</span>
+
+
+<span class="nx">setContentHeight</span><span class="p">()</span> <span class="c1">// Call the function</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onresize</span> <span class="o">=</span> <span class="nx">setContentHeight</span> <span class="c1">// Bind it to the window resize event</span></code></pre></div>
+
+<p><br /></p>
+
+<p><strong>After</strong>
+<br />
+<img alt="Screenshot of solution" src="/images/2013-08-05-after.png" /></p>
+
+<p><br /></p>
+
+<p>There you have it. With this bit of javascript code, the content div now sets
+its height dynamically based on the height of the viewport. Adiós.</p>
+
+</div>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+    
+  </body>
+</html>

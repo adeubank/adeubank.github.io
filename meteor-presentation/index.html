@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Meteor JS | Allen Eubank</title>
+
+    <meta name="description" content="A presentation on Meteor JS by Allen Eubank">
+    <meta name="author" content="Allen Eubank">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/monokai.css">
+
+    <style type="text/css">
+    section.present {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h1>Meteor JS</h1>
+            <h3>Introduction to a platform built <br> for the modern web.</h3>
+            <p>
+              <small>Author: <a href="https://alleneubank.com">alleneubank.com</a> / <a href="https://twitter.com/alleneubank">@alleneubank</a></small>
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>greetings, I'm allen eubank</li>
+                <li>developer with basis</li>
+                <li>follow me on twitter, alleneubank</li>
+                <li>go to alleneubank.com, sign up for my mailing list</li>
+                <li>talking about meteor</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Back Story</h2>
+            <p>I have been doing web development for the past 5 years.</p>
+            <p>I have made a lot of interactive websites<br/>(I write a lot of JavaScript)</p>
+            <p>Mobile is taking over</p>
+            <aside class="notes">
+              <ul>
+                <li>not making this up</li>
+                <li>5 years of web experience</li>
+                <li>i have seen more and more interactiveness applied to websites</li>
+                <li>the age of Mobile</li>
+              </ul>
+    				</aside>
+          </section>
+
+          <section>
+            <h2>What is Meteor JS?</h2>
+            <p>
+              Meteor is an ultra-simple environment for building modern websites. What once took weeks, even with the best tools, now takes hours with Meteor.
+            </p>
+						<aside class="notes">
+							<ul>
+                <li>Meteor JS a game changer</li>
+                <li>Open source platform backed by VC funded company</li>
+                <li>Raised over 11M in funding</li>
+                <li>safe to say it's not going anywhere</li>
+                <li>now the principles</li>
+              </ul>
+						</aside>
+          </section>
+
+          <section>
+            <h3>Data on the Wire.</h3>
+            <p>Meteor doesn't send HTML over the network. The server sends data and lets the client render it.</p>
+            <p>
+              <img src="data.jpg" alt="Data on the Wire">
+            </p>
+            <aside class="notes">
+        			<ul>
+                <li>web of today, clients render, server serves</li>
+                <li>example</li>
+              </ul>
+    				</aside>
+          </section>
+
+          <section>
+            <h3>One Language.</h3>
+            <p>Meteor lets you write both the client and the server parts of your application in JavaScript.</p>
+            <aside class="notes">
+              <ul>
+                <li>JavaScript everywhere, isomorphism</li>
+                <li>example: console.log("this prints everywhere");</li>
+                <li>show isomorphism</li>
+              </ul>
+    				</aside>
+          </section>
+
+          <section>
+            <h3>Database Everywhere.</h3>
+            <p>You can use the same methods to access your database from the client or the server.</p>
+            <aside class="notes">
+              <ul>
+                <li>Due to isomorphism, same API to access the database</li>
+                <li>show database-everywhere</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Latency Compensation.</h3>
+            <p>On the client, Meteor prefetches data and simulates models to make it look like server method calls return instantly.</p>
+          </section>
+
+          <section>
+            <h3>Full Stack Reactivity.</h3>
+            <p>In Meteor, realtime is the default. All layers, from database to template, update themselves automatically when necessary.</p>
+          </section>
+
+          <section>
+            <h3>Embrace the Ecosystem.</h3>
+            <p>Meteor is open source and integrates with existing open source tools and frameworks.</p>
+          </section>
+
+          <section>
+            <h3>Simplicity Equals Productivity.</h3>
+            <p>The best way to make something seem simple is to have it actually be simple. Meteor's main functionality has clean, classically beautiful APIs.</p>
+          </section>
+
+          <section>
+            <h2>A game built using Meteor, <a href="http://snake-pits.com">snake-pits.com</a>.</h2>
+          </section>
+
+          <section style="text-align: left;">
+            <h1 style="padding-left: 40px;">THE END</h1>
+          </section>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+
+      // Parallax background image
+      parallaxBackgroundImage: 'meteor.jpeg', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
+
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
+
+      // Amount of pixels to move the parallax background per slide step,
+      // a value of 0 disables movement along the given axis
+      // These are optional, if they aren't specified they'll be calculated automatically
+      parallaxBackgroundHorizontal: 0,
+      parallaxBackgroundVertical: 240,
+
+      // Optional reveal.js plugins
+      dependencies: [{
+        src: 'lib/js/classList.js',
+        condition: function() {
+          return !document.body.classList;
+        }
+      }, {
+        src: 'plugin/markdown/marked.js',
+        condition: function() {
+          return !!document.querySelector('[data-markdown]');
+        }
+      }, {
+        src: 'plugin/markdown/markdown.js',
+        condition: function() {
+          return !!document.querySelector('[data-markdown]');
+        }
+      }, {
+        src: 'plugin/highlight/highlight.js',
+        async: true,
+        condition: function() {
+          return !!document.querySelector('pre code');
+        },
+        callback: function() {
+          hljs.initHighlightingOnLoad();
+        }
+      }, {
+        src: 'plugin/zoom-js/zoom.js',
+        async: true
+      }, {
+        src: 'plugin/notes/notes.js',
+        async: true
+      }]
+    });
+    </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>Allen Eubank | Thoughts and Essays</title>
+		<description>Allen Eubank is a problem solver, code loving, and genuinely curious person. Here Allen Eubank documents problems, code, and ideas of interest.</description>		
+		<link>https://alleneubank.com</link>
+		<atom:link href="https://alleneubank.com/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>An Introduction to Meteor JS</title>
+				        
+				
+					<description>&lt;p&gt;I gave a talk recently on &lt;a href=&quot;https://meteor.com&quot;&gt;Meteor JS&lt;/a&gt; at the &lt;a href=&quot;http://wapro.lbtech.org&quot;&gt;WAPRO&lt;/a&gt; meetup in Long Beach, CA. This is a deeper dive into the examples that I talked about. Follow along the code examples by downloading the code with this &lt;a href=&quot;https://github.com/adeubank/intro-to-meteor-js/archive/master.zip&quot;&gt;link&lt;/a&gt;. Here is a link to the &lt;a href=&quot;https://adeubank.github.io/meteor-presentation&quot;&gt;slides&lt;/a&gt;&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Sat, 30 May 2015 00:00:00 -0700</pubDate>
+				<link>https://alleneubank.com/2015/05/30/intro-to-meteor.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/2015/05/30/intro-to-meteor.html</guid>
+			</item>
+		
+			<item>
+				<title>Why Complaining Will Not Help You</title>
+				        
+				
+					<description>&lt;h2 id=&quot;no-ones-like-a-complainer-except-another-complainer&quot;&gt;&lt;strong&gt;No ones like a complainer except another complainer.&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;I am surprised that I did not know this earlier in my life. I did not know about the power I would give up when I would complain. Complaints are admissions. Admissions that there is something in your life that you have no control over. That there is something in the world that wronged you or hurt you in some way.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Tue, 03 Feb 2015 00:00:00 -0800</pubDate>
+				<link>https://alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/2015/02/03/why-complaining-will-not-help-you.html</guid>
+			</item>
+		
+			<item>
+				<title>Queuing and Scheduling Background Jobs in Meteor</title>
+				        
+				
+					<description>&lt;h2 id=&quot;background-jobs-processing&quot;&gt;&lt;strong&gt;Background Jobs Processing&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;There are plenty of packages that now support and enhance the ability to do background processing in Meteor applications. Background jobs are an essential part of a web framework. Many times I have had to set up background jobs to be run on the server, i.e. refresh a cache, process images, calculate stats, etc.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Thu, 22 Jan 2015 00:00:00 -0800</pubDate>
+				<link>https://alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html</guid>
+			</item>
+		
+			<item>
+				<title>Asking Why</title>
+				        
+				
+					<description>&lt;h2 id=&quot;asking-why&quot;&gt;Asking “Why?”&lt;/h2&gt;
+&lt;p&gt;Why do I ask why? Now, whenever I take on a new project or decide to spend extra time working, I want to give myself a reason to commit to it. &lt;/p&gt;
+
+</description>
+				
+				<pubDate>Fri, 09 Jan 2015 00:00:00 -0800</pubDate>
+				<link>https://alleneubank.com/essays/asking-why</link>
+				<guid isPermaLink="true">https://alleneubank.com/essays/asking-why</guid>
+			</item>
+		
+			<item>
+				<title>Google Inbox for Productivity</title>
+				        
+				
+					<description>&lt;h2 id=&quot;google-inbox-to-supercharge-productivity&quot;&gt;Google Inbox to supercharge productivity&lt;/h2&gt;
+&lt;p&gt;Everyday we all receive emails. Don’t spend more time than you need to filtering, sorting, prioritizing emails. Let Google do it for you! Google creates bundles of emails that categorize them for you. Stop using labels, folders, tags, rules, etc.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Tue, 06 Jan 2015 00:00:00 -0800</pubDate>
+				<link>https://alleneubank.com/essays/google-inbox-for-productivity</link>
+				<guid isPermaLink="true">https://alleneubank.com/essays/google-inbox-for-productivity</guid>
+			</item>
+		
+			<item>
+				<title>Learning a new framework, Meteor</title>
+				        
+				
+					<description>&lt;p&gt;Recently, I found a new framework, &lt;a href=&quot;http://meteor.com&quot;&gt;Meteor&lt;/a&gt;. I went through the free chapters of the Discover Meteor book. The chapters consisted of the basic CRUD principles in a Meteor application. Here is the README verbatim from the GitHub repository which you can find here &lt;a href=&quot;https://github.com/adeubank/adej-microscope&quot;&gt;adej-microscope&lt;/a&gt;. You can find the application running on &lt;a href=&quot;http://adej-microscope.alleneubank.com&quot;&gt;http://adej-microscope.alleneubank.com&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Sat, 08 Nov 2014 00:00:00 -0800</pubDate>
+				<link>https://alleneubank.com/essays/learning-a-new-framework-meteor</link>
+				<guid isPermaLink="true">https://alleneubank.com/essays/learning-a-new-framework-meteor</guid>
+			</item>
+		
+			<item>
+				<title>Web Development with Grunt</title>
+				        
+				
+					<description>&lt;h3&gt;JavaScript For The Web&lt;/h3&gt;
+
+</description>
+				
+				<pubDate>Tue, 17 Jun 2014 00:00:00 -0700</pubDate>
+				<link>https://alleneubank.com/web-development-with-grunt.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/web-development-with-grunt.html</guid>
+			</item>
+		
+			<item>
+				<title>Milan Eubank Wedding Site Debut</title>
+				        
+				
+					<description>&lt;p&gt;It has been awhile since my last post. I have definitely not been under a rock! A great deal has happened since my last post. If you have not figured it out yet, I am getting married! Here is the link, &lt;a href=&quot;/wedding&quot;&gt;Milan Eubank Wedding&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Fri, 13 Jun 2014 00:00:00 -0700</pubDate>
+				<link>https://alleneubank.com/debut-milan-eubank-wedding-site.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/debut-milan-eubank-wedding-site.html</guid>
+			</item>
+		
+			<item>
+				<title>Hello World</title>
+				        
+				
+					<description>&lt;p&gt;Welcome! Up until recently I was working full-time as a web developer at
+&lt;a href=&quot;http://www.brightercollective.com&quot;&gt;Brighter&lt;/a&gt;. Where I was programming in HTML,
+CSS, JavaScript, Java, C#, Cold Fusion, and Ruby. I learned a great deal while I was there but now I am looking to get out there on my own.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Mon, 05 Aug 2013 00:00:00 -0700</pubDate>
+				<link>https://alleneubank.com/essays/2013/08/05/hello-world.html</link>
+				<guid isPermaLink="true">https://alleneubank.com/essays/2013/08/05/hello-world.html</guid>
+			</item>
+		
+	</channel>
+</rss>

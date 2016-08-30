@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | An Introduction to Meteor JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Here is an introduction to meteor js and the principles meteor js embodies.">
+    <meta property="og:url" content="https://alleneubank.com/2015/05/30/intro-to-meteor.html" />
+    <meta property="og:title" content="Allen Eubank | An Introduction to Meteor JS" />
+    <meta property="og:description" content="Here is an introduction to meteor js and the principles meteor js embodies." />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative; left: -100%;">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>An Introduction to Meteor JS</h2>
+<p class="meta">30 May 2015</p>
+<p>Here is an introduction to meteor js and the principles meteor js embodies.</p>
+
+<div class="post">
+<p>I gave a talk recently on <a href="https://meteor.com">Meteor JS</a> at the <a href="http://wapro.lbtech.org">WAPRO</a> meetup in Long Beach, CA. This is a deeper dive into the examples that I talked about. Follow along the code examples by downloading the code with this <a href="https://github.com/adeubank/intro-to-meteor-js/archive/master.zip">link</a>. Here is a link to the <a href="https://adeubank.github.io/meteor-presentation">slides</a></p>
+
+<h2 id="the-principles-of-meteor">The principles of Meteor</h2>
+
+<p>Here are the principles verbatim from the <a href="https://docs.meteor.com">meteor docs</a>.</p>
+
+<ol>
+  <li>Data on the wire</li>
+  <li>One language</li>
+  <li>Database everywhere</li>
+  <li>Latency Compensation</li>
+  <li>Full stack reactivity</li>
+  <li>Embrace the ecosystem</li>
+  <li>Simplicity equals productivity</li>
+</ol>
+
+<h2 id="the-examples">The examples</h2>
+
+<h3 id="data-on-the-wire">Data on the wire</h3>
+
+<p>Meteor sends data, not presentation. Meteor delegates presentation to clients and sends data to be rendered by clients. This is now the approach many applications take think single page applications. Many applications accomplish this through REST APIs.</p>
+
+<p>Meteor uses a <em>distributed data protocol(DDP)</em> over web sockets to send and receive data from clients. This architecture is much easier to use then REST. Meteor offers a publish/subscribe approach that takes care of the heavy lifting of handling responses/requests.</p>
+
+<p><span><small><i><em>Chrome Devtools displaying data on the wire</em></i></small></span>
+<img src="/images/meteor-data-on-the-wire.jpg" alt="alt text" title="Chrome Devtools displaying data on the wire" /></p>
+
+<h3 id="one-language">One language</h3>
+
+<p>Meteor applications support running the same code on the server and client. Typically, modern web applications have more than one programming language. JavaScript for the client and ruby/python/java/etc running on the server for example.</p>
+
+<p>Meteor runs JavaScript everywhere because it is built on top of Node JS. Allowing for the idea of <em>write once, run everywhere</em>. An integration that meteor supports is <a href="https://github.com/meteor/meteor/wiki/Meteor-Cordova-Phonegap-integration">Cordova Phonegap</a> for deploying native applications.</p>
+
+<p><span><small><i><em>One language supported on client and server</em></i></small></span></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">methods</span><span class="p">({</span>
+  <span class="s1">&#39;sharedCode&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isServer</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;it&#39;s on the server&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isClient</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;it&#39;s on the client&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;where is this?&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isClient</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Meteor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;sharedCode&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isServer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Meteor</span><span class="p">.</span><span class="nx">startup</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// code to run on server at startup</span>
+    <span class="nx">Meteor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;sharedCode&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span></code></pre></div>
+
+<h3 id="database-everywhere">Database everywhere</h3>
+
+<p>With Meteor the database is accessed through the same API. Out of the box, Meteor supports Mongo DB. The client doesn’t have “direct” access to the database. Meteor achieves this through an in-browser implementation of the mongodb (called minimongo). Meteor keeps the client database in sync with the actual database through DDP.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// create/access a collection in mongodb/minimongo</span>
+<span class="nx">MyCollection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mongo</span><span class="p">.</span><span class="nx">Collection</span><span class="p">(</span><span class="s1">&#39;a_mongo_collection&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isClient</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Tracker</span><span class="p">.</span><span class="nx">autorun</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// the `find` method is used to query documents from minimongo</span>
+    <span class="c1">// and the mongodb. The minimongo supports most of the mongodb</span>
+    <span class="c1">// selectors and modifiers.</span>
+    <span class="nx">MyCollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">fetch</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Found &quot;</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">text</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isServer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// same `find` method</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">MyCollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">count</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">_</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">MyCollection</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span>
+      <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;this is doc &quot;</span> <span class="o">+</span> <span class="nx">i</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span></code></pre></div>
+
+<h3 id="latency-compensation">Latency Compensation</h3>
+
+<p>Web applications today need to be fast. Many applications will wait for a response from the server before proceeding.</p>
+
+<p>Meteor assumes that the operation will run successfully and not wait for the server before proceeding. It will reconcile any errors or differences when the server does respond in order to be compliant with the final outcome of the operation.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Score</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mongo</span><span class="p">.</span><span class="nx">Collection</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isClient</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">Template</span><span class="p">.</span><span class="nx">hello</span><span class="p">.</span><span class="nx">helpers</span><span class="p">({</span>
+    <span class="nx">counter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">score</span> <span class="o">=</span> <span class="nx">Score</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({})</span> <span class="o">||</span> <span class="p">{};</span>
+      <span class="k">return</span> <span class="nx">score</span><span class="p">.</span><span class="nx">num</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="nx">Template</span><span class="p">.</span><span class="nx">hello</span><span class="p">.</span><span class="nx">events</span><span class="p">({</span>
+    <span class="s1">&#39;click button&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// increment the counter when button is clicked</span>
+      <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+
+      <span class="nx">Meteor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;inc&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">Meteor</span><span class="p">.</span><span class="nx">methods</span><span class="p">({</span>
+  <span class="s1">&#39;inc&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isServer</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// simulate a slower operation on the server</span>
+      <span class="c1">// then increment score by 2 on the server</span>
+      <span class="nx">Meteor</span><span class="p">.</span><span class="nx">_sleepForMs</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+      <span class="nx">Score</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span> <span class="nx">only</span><span class="o">:</span> <span class="mi">1</span> <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">$inc</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">num</span><span class="o">:</span> <span class="mi">2</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// increment the score by 1 on the client</span>
+      <span class="nx">Score</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span> <span class="nx">only</span><span class="o">:</span> <span class="mi">1</span> <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">$inc</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">num</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<h3 id="full-stack-reactivity">Full stack reactivity</h3>
+
+<p>Today web applications tend to be “real time.” This means that as things happen users expect to see the changes as they happen. This means that as changes to data happen the client must represent these changes to the end users. Meteor solves this through the <code>Tracker</code> package on the client.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// demonstration for client only right now</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">isServer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// client only collection</span>
+<span class="nx">coordsCollection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mongo</span><span class="p">.</span><span class="nx">Collection</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+<span class="nx">Template</span><span class="p">.</span><span class="nx">reactivity</span><span class="p">.</span><span class="nx">onRendered</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// bind an event handler on the mousemove event</span>
+  <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// query our one coordinate document</span>
+    <span class="kd">var</span> <span class="nx">coord</span> <span class="o">=</span> <span class="nx">coordsCollection</span><span class="p">.</span><span class="nx">findOne</span><span class="p">();</span>
+
+    <span class="c1">// update the document as the mouse cursor moves</span>
+    <span class="nx">coordsCollection</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span> <span class="nx">only</span><span class="o">:</span> <span class="mi">1</span> <span class="p">},</span> <span class="p">{</span>
+      <span class="nx">$set</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">x</span><span class="o">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">,</span>
+        <span class="nx">y</span><span class="o">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">Template</span><span class="p">.</span><span class="nx">reactivity</span><span class="p">.</span><span class="nx">helpers</span><span class="p">({</span>
+  <span class="nx">coord</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create a dependency on this document</span>
+    <span class="c1">// and update the template as this document changes.</span>
+    <span class="k">return</span> <span class="nx">coordsCollection</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span>
+      <span class="nx">only</span><span class="o">:</span> <span class="mi">1</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;template</span> <span class="na">name=</span><span class="s">&quot;reactivity&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h3&gt;</span>Reactivity<span class="nt">&lt;/h3&gt;</span>
+  <span class="c">&lt;!-- unpack our coordinates from the coordinate document --&gt;</span>
+  <span class="nt">&lt;p&gt;&lt;b&gt;</span>x:<span class="nt">&lt;/b&gt;</span>{{coord.x}}, <span class="nt">&lt;b&gt;</span>y:<span class="nt">&lt;/b&gt;</span>{{coord.y}}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/template&gt;</span></code></pre></div>
+
+<h3 id="embrace-the-ecosystem">Embrace the ecosystem</h3>
+
+<p>Meteor is open source. Allowing for an open platform. As of now, Meteor is in the top ten starred repositories on GitHub. Meteor is a collection of packages similar to packages in node js or gems in ruby. There are already a number of packages open sourced by the community allowing for the integration of existing libraries.</p>
+
+<h3 id="simplicity-equals-productivity">Simplicity equals productivity</h3>
+
+<p>Baking simplicity into Meteor allowed for an easier adoption. Meteor is attractive to hobbyist and professional programmers. Allowing for rapid prototype and application development. For this talk I wanted to build a multiplayer game to demonstrate the various principles. It took me less than a week to have something playable by friends.</p>
+
+<h2 id="meteor-a-web-platform-built-for-the-future-of-development">Meteor, a web platform built for the future of development</h2>
+
+<p>Meteor is still relatively new. Everyday, it gathers more support. Since 1.0, meteor has been gaining a lot of traction. I am excited to see where the platform as whole goes and see what people can build on it.</p>
+
+</div>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+  </body>
+</html>

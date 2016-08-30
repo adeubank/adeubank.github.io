@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | Queuing and Scheduling Background Jobs in Meteor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="I've recently been using Meteor for personal projects and I came across a problem that I needed some background processing.">
+    <meta property="og:url" content="https://alleneubank.com/2015/01/22/queuing-and-scheduling-background-jobs-in-meteor.html" />
+    <meta property="og:title" content="Allen Eubank | Queuing and Scheduling Background Jobs in Meteor" />
+    <meta property="og:description" content="I've recently been using Meteor for personal projects and I came across a problem that I needed some background processing." />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative; left: -100%;">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>Queuing and Scheduling Background Jobs in Meteor</h2>
+<p class="meta">22 Jan 2015</p>
+<p>I've recently been using Meteor for personal projects and I came across a problem that I needed some background processing.</p>
+
+<div class="post">
+<h2 id="background-jobs-processing"><strong>Background Jobs Processing</strong></h2>
+<p>There are plenty of packages that now support and enhance the ability to do background processing in Meteor applications. Background jobs are an essential part of a web framework. Many times I have had to set up background jobs to be run on the server, i.e. refresh a cache, process images, calculate stats, etc.</p>
+
+<p>In Meteor, there are already a lot of options. Here I am going to demonstrate the most straight-forward solution to background processing.</p>
+
+<h2 id="meteorsetinterval"><strong>Meteor.setInterval</strong></h2>
+<p>There is a special method, <code>Meteor.setInterval</code>, which like the <code>window.setInterval</code> in the browser executes code repeatedly over a specified interval. Here is what my application initially looked like when I first attempted background job processing in Meteor.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Runs every 10 seconds</span>
+<span class="nx">Meteor</span><span class="p">.</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;do your work, behind the scenes&#39;</span><span class="p">);</span>
+<span class="p">},</span> <span class="mi">10000</span><span class="p">);</span></code></pre></div>
+
+<h3 id="initial-problems"><strong>Initial problems</strong></h3>
+<p>Now, I wanted to set up my background jobs to be run on the server instead of the client,(I didn’t want to turn my client’s computer into a node in a giant server farm). The only problem with calling <code>Meteor.setInterval</code> on the server is that, because of the single threaded nature of the Meteor server, this essentially causes a block and the server is not able to handle any new requests while running running the <code>Meteor.setInterval</code> function.</p>
+
+<h3 id="using-npm-package-queue-async"><strong>Using npm package <code>queue-async</code></strong></h3>
+<p>In my searches, I found that there is a node package named, <code>queue-async</code>. Pairing this with the Meteor package, <code>meteorhacks:npm</code>, I was able to run the <code>Meteor.setInterval</code> function in the background, not causing the main Meteor server thread to block. Here is the relevant code to get that working.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Run these two functions every five seconds</span>
+<span class="nx">Meteor</span><span class="p">.</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="nx">Meteor</span><span class="p">.</span><span class="nx">npmRequire</span><span class="p">(</span><span class="s1">&#39;queue-async&#39;</span><span class="p">);</span>
+  <span class="nx">queue</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">defer</span><span class="p">(</span><span class="nx">functionOneName</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">defer</span><span class="p">(</span><span class="nx">functionTwoName</span><span class="p">);</span>
+<span class="p">},</span> <span class="mi">5000</span><span class="p">);</span></code></pre></div>
+
+<h3 id="taking-background-job-scheduling-further"><strong>Taking Background Job Scheduling Further</strong></h3>
+
+<p>I found that this solution is great for functions that should be run without any knowledge of anything else and is simple background processing. The only catch when scheduling background jobs is, </p>
+
+<blockquote>
+  <p><strong><em>Is it acceptable to have a type of background job overlap its execution with another of the same type?</em></strong></p>
+</blockquote>
+
+<p>In my case, I needed to be sure that only one type of this particular job was running at any given time. For this, I created a simple mutex that would lock when this job would start and would be released when that job was finished, pass or fail. Here is what that looked liked.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Try to run function every 30 seconds, but only run one at a time</span>
+<span class="kd">var</span> <span class="nx">isProcessNameRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="nx">Meteor</span><span class="p">.</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// check the mutex, cancel this call if already locked</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isProcessNameRunning</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="c1">// grab the mutex, locking this process</span>
+  <span class="nx">isProcessNameRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+  <span class="c1">// call the process</span>
+  <span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="nx">Meteor</span><span class="p">.</span><span class="nx">npmRequire</span><span class="p">(</span><span class="s1">&#39;queue-async&#39;</span><span class="p">);</span>
+  <span class="nx">queue</span><span class="p">().</span>
+    <span class="nx">defer</span><span class="p">(</span><span class="nx">processName</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">await</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// process returned, free the mutex</span>
+      <span class="nx">isProcessNameRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">},</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">30</span><span class="p">);</span></code></pre></div>
+
+<h3 id="fin"><strong>Fin</strong></h3>
+<p>Thanks for reading, hit me up on twitter for any questions/comments/ideas.</p>
+
+<p><a href="https://twitter.com/alleneubank">@alleneubank</a></p>
+
+
+</div>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+  </body>
+</html>

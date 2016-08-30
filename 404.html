@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | Whoa, what are you looking for?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta property="og:url" content="https://alleneubank.com/404.html" />
+    <meta property="og:title" content="Allen Eubank | Whoa, what are you looking for?" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative;  ">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>404'd Dude</h2>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+    
+  </body>
+</html>

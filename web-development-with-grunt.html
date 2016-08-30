@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Allen Eubank | Web Development with Grunt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta property="og:url" content="https://alleneubank.com/web-development-with-grunt.html" />
+    <meta property="og:title" content="Allen Eubank | Web Development with Grunt" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="http://www.alleneubank.com/images/selfie.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div id="site" style="position: relative;  ">
+        <div class="header">
+          <h1><a href="/">Allen Eubank | Thoughts and Essays</a></h1>
+          <a href="/about">About</a>
+          <br/>
+        </div>
+        <!-- /header -->
+
+        <div class="content">
+          <h2>Web Development with Grunt</h2>
+<p class="meta">17 Jun 2014</p>
+<p></p>
+
+<div class="post">
+<h3>JavaScript For The Web</h3>
+
+<p>I have seen a lot of web sites and web applications use different setups for including JavaScript in their site. The most common and easiest to use is add a script tag for every JavaScript file needed. It looks something like this,</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/path/to/dependency.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/path/to/another/dependency.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/path/to/custom.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/path/to/another/custom.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></div>
+
+<p>Which gives you the ultimate control over when and how things are executed. The only problem I see with this is that the browser will have to download each one of these script tags. Is it necessary to include this large amount of script tags on a web site? This can slow down your web site and make mobile users less than happy about the amount of battery is wasted doing this.</p>
+
+<div class="center">
+
+Enter Grunt
+<br />
+
+<img src="https://alleneubank.com/images/grunt.jpg" alt="Warcraft Grunt" />
+<br />
+Just kidding, not that kind of Grunt.
+<br />
+(pause for nostalgic Warcraft moment here)
+
+</div>
+
+<p><br /></p>
+
+<div class="center">
+<img src="https://alleneubank.com/images/grunt-logo.svg" alt="Gruntjs" />
+</div>
+
+<p><br />
+Grunt: The JavaScript Task Runner. What does that mean? To me, that means all grunt is concerned about is tasks. What is a task? Anything you define it to be. Grunt JS tasks can be custom or from one of the thousands of plugins provided from their repository. Grunt JS is easy to install, much more difficult to use. Let’s start with the prerequisites.</p>
+
+<p><br /></p>
+
+<p>Is Node installed? No? Go get it <a href="http://nodejs.org">NodeJS</a>.
+<br />
+Then run this command below. Install npm and then the grunt-cli.</p>
+
+<div class="highlight"><pre><code class="bash">curl http://npmjs.org/install.sh <span class="p">|</span> sh
+npm install -g grunt-cli</code></pre></div>
+
+<p>After that, find the root directory of your project. You need a package.json file with Grunt included as a dependency to work with Grunt.</p>
+
+<div class="highlight"><pre><code class="bash">npm init
+<span class="c"># Answer the project questionnaire</span>
+npm install grunt --save-dev</code></pre></div>
+
+<p>Now, what do we do with it? Where are all the tasks to be run?</p>
+
+<p><br /></p>
+
+<p>The Gruntfile.js(or just Gruntfile) file is where it’s at! The Gruntfile is the definitive guide to what tasks belong to your project. The Gruntfile lives at the root of your project. Now when I started with Grunt this is where I was lost. I have this awesome tool that I have access to, now what do I do with it?</p>
+
+<p><br />
+My first Gruntfile.js</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// load all grunt tasks</span>
+  <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;load-grunt-tasks&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+
+  <span class="c1">// Project configuration.</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+    <span class="nx">pkg</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">readJSON</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">),</span>
+
+    <span class="c1">// Task configuration.</span>
+    <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">server</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">port</span><span class="o">:</span> <span class="mi">3000</span><span class="p">,</span>
+          <span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span><span class="p">,</span>
+          <span class="nx">open</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">target</span><span class="o">:</span> <span class="s1">&#39;http://localhost:3000/&#39;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/**/*&#39;</span><span class="p">],</span>
+      <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;build&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
+      <span class="c1">// define the files to lint</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/**/*.js&#39;</span><span class="p">],</span>
+      <span class="c1">// configure JSHint (documented at http://www.jshint.com/docs/)</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="c1">// more options here if you want to override JSHint defaults</span>
+        <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">module</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">handlebars</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;build/js/templates.js&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;src/templates/**/*.hbs&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">processName</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">filePath</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^src\/templates\//</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\.hbs$/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">copy</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">build</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;src/&#39;</span><span class="p">,</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;img/**&#39;</span><span class="p">,</span> <span class="s1">&#39;css/**&#39;</span><span class="p">,</span> <span class="s1">&#39;**/*.html&#39;</span><span class="p">],</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span>
+        <span class="p">},</span> <span class="p">{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;lib/&#39;</span><span class="p">,</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;img/**&#39;</span><span class="p">,</span> <span class="s1">&#39;css/**&#39;</span><span class="p">],</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span>
+        <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="o">:</span><span class="p">[{</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;dist/&#39;</span><span class="p">,</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;**/*&#39;</span><span class="p">,</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;mobileApp/www&#39;</span>
+        <span class="p">}]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">clean</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">build</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="s2">&quot;dist&quot;</span><span class="p">],</span>
+      <span class="nx">dist</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;mobileApp/www/**/*&quot;</span><span class="p">]</span>
+    <span class="p">},</span>
+
+    <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">separator</span><span class="o">:</span> <span class="s1">&#39;;&#39;</span>
+      <span class="p">},</span>
+      <span class="nx">build</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;lib/js/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;build/js/templates.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/js/**/*.js&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist/js/&lt;%= pkg.name %&gt;.js&#39;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Default task(s).</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build&#39;</span><span class="p">]);</span>
+
+  <span class="c1">// Build a new version of the library</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;Builds a development version&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;jshint&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;clean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;copy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;handlebars&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concat&#39;</span>
+  <span class="p">]);</span>
+
+  <span class="c1">// Build a new version of the library</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;Deploys a mobile version for Phonegap&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;build&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;copy&#39;</span>
+  <span class="p">]);</span>
+
+  <span class="c1">// Server</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;server&#39;</span><span class="p">,</span> <span class="s1">&#39;Run server&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;connect&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;watch&#39;</span>
+  <span class="p">]);</span>
+
+<span class="p">};</span></code></pre></div>
+
+<p><br /></p>
+
+<p>This is a Gruntfile that I made for a single web page application. This Gruntfile serves as a simple JavaScript linter, Handlebars’ compiler, and JavaScript concatenator. I also included a task to watch for file changes and a local server to serve up the assets.</p>
+
+<p><br /></p>
+
+<h3>The Break Down of My First Gruntfile</h3>
+
+<p>Every Gruntfile starts with this line. This is how it registers tasks to be run form the command line.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">...</span>
+<span class="p">};</span></code></pre></div>
+
+<p><br />These lines start the configuration of the Gruntfile. It’s where we tell tasks how they should run. The “<code>load-grunt-tasks</code>” plugin loads all grunt tasks by default. It’s just a nice helper and makes the Gruntfile shorter.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// load all grunt tasks</span>
+  <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;load-grunt-tasks&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+
+  <span class="c1">// Project configuration.</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+    <span class="p">...</span>
+  <span class="p">});</span>
+
+  <span class="p">...</span>
+<span class="p">};</span></code></pre></div>
+
+<p><br />Thus starts the configuration. Here is where the learning curve became steep for me. There are tons of plugins out there with all there own quirks and caveats.</p>
+
+<p><br />
+The “pkg: grunt.file.readJSON(‘package.json’),” tells Grunt where to find your project plugins. The next tidbit after that is the configuration of the grunt-contrib-connect plugin, which is a server plugin that I used to host the web app locally for development. Nothing too crazy, just a non-standard port to listen on, the base directory to serve assets from, and a convenience option that opens the target in your browser when initially running the task. The grunt-contrib-watch is an awesome plugin that reruns a task when targeted files are updated. I paired this plugin with my default build task that rebuilds the project every time a targeted file changed. Nuff’ said.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="nx">pkg</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">readJSON</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">),</span>
+
+  <span class="c1">// Task configuration.</span>
+  <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">server</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">port</span><span class="o">:</span> <span class="mi">3000</span><span class="p">,</span>
+        <span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span><span class="p">,</span>
+        <span class="nx">open</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">target</span><span class="o">:</span> <span class="s1">&#39;http://localhost:3000/&#39;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/**/*&#39;</span><span class="p">],</span>
+    <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;build&#39;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">});</span></code></pre></div>
+
+<p><br /></p>
+<h3>JSHint, Handlebars Configurations</h3>
+<p>JSHint is a tool that I use in everyday development. I pair the tool with sublime text. Here it’s more of a nice syntax and style guide checker for JavaScript. In this configuration file, it halts the build when it detects something funky. It enforces cleaner JavaScript code. Here I just lint the JavaScript files under the source directory, and of course, the Gruntfile.js itself. I opted to not lint any third party plugins. I keep those in a lib directory outside of the applications source directory.</p>
+
+<p><br />
+The Handlebars configuration was at first a little tricker. I didn’t want to have the compiled handlebars file inside the source directory. I felt that the compiled file did not belong there, only the source files. I opted to output the compiled templates to a build directory. The processName property is there to change the way the templates are accessed. The templates.js file puts all of our compiled template files into a global variable, JST. The way you access a specific template is the relative path to the file. For example, a file found at src/templates/a.hbs would be accessed with JST[‘src/templates/a.hbs’]. This option just removes the ‘src/templates’ and file extension portion.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+
+  <span class="p">...</span>
+
+  <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
+      <span class="c1">// define the files to lint</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/**/*.js&#39;</span><span class="p">],</span>
+      <span class="c1">// configure JSHint (documented at http://www.jshint.com/docs/)</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="c1">// more options here if you want to override JSHint defaults</span>
+        <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">module</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">handlebars</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;build/js/templates.js&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;src/templates/**/*.hbs&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">processName</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">filePath</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^src\/templates\//</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\.hbs$/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+
+  <span class="p">...</span>
+
+<span class="p">});</span></code></pre></div>
+
+<p><br /></p>
+
+<h3>The Build</h3>
+<p>Here is the step that I used to gather and prep the files for a final package. The copy property is for the grunt-contrib-copy plugin. The build part of copy just gathers all files and places them in the dist folder. This is the folder that I am using to hold the final product. I was also using the dist folder to copy the application to another folder that was being used by phonegap. The only gotcha I found with the copy plugin was that the cwd property needs to be used in junction with the expand property.</p>
+
+<p><br />
+The next configurations are concerned with the grunt-contrib-clean plugin. I thought this plugin was important because certain files can be copied over if the output files are not cleaned before.</p>
+
+<p><br />
+Finally, the all important grunt-contrib-concat plugin. This is an important plugin that solves the problem that I brought up at the beginning of this post—yeah, I know the post is getting long. This step finds all the source files and strings them together for you. This is also where you have to enforce a certain order if some JavaScript is dependent on another. For my configuration, I concatenated all the lib files—or the project dependencies—first, then the templates.js, and then the all of the custom application src files. The separator property just adds a semicolon between all the files, not necessary, just an added precaution.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+
+  <span class="p">...</span>
+
+  <span class="nx">copy</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">build</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;src/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;img/**&#39;</span><span class="p">,</span> <span class="s1">&#39;css/**&#39;</span><span class="p">,</span> <span class="s1">&#39;**/*.html&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span>
+      <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;lib/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;img/**&#39;</span><span class="p">,</span> <span class="s1">&#39;css/**&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist&#39;</span>
+      <span class="p">}]</span>
+    <span class="p">},</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span><span class="p">[{</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;dist/&#39;</span><span class="p">,</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;**/*&#39;</span><span class="p">,</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;mobileApp/www&#39;</span>
+      <span class="p">}]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">clean</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">build</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="s2">&quot;dist&quot;</span><span class="p">],</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;mobileApp/www/**/*&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+
+  <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">separator</span><span class="o">:</span> <span class="s1">&#39;;&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">build</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;lib/js/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;build/js/templates.js&#39;</span><span class="p">,</span> <span class="s1">&#39;src/js/**/*.js&#39;</span><span class="p">],</span>
+      <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;dist/js/&lt;%= pkg.name %&gt;.js&#39;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="p">...</span>
+
+<span class="p">});</span></code></pre></div>
+
+<p><br /></p>
+<h3>Registered Custom Tasks</h3>
+<p>The parts we went through so far just describe how the custom plugins should be run. The next parts define the tasks specific to this project. The ‘build’ task runs multiple tasks in order. The ‘build’ property in the above configurations matches up with the ‘build’ task defined below. The same goes for the ‘dist’ and ‘server’ tasks. They leverage the other configurations.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="p">...</span>
+
+  <span class="c1">// Default task(s).</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build&#39;</span><span class="p">]);</span>
+
+  <span class="c1">// Build a new version of the library</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;Builds a development version&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;jshint&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;clean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;copy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;handlebars&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;concat&#39;</span>
+  <span class="p">]);</span>
+
+  <span class="c1">// Build a new version of the library</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;Deploys a mobile version for Phonegap&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;build&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;copy&#39;</span>
+  <span class="p">]);</span>
+
+  <span class="c1">// Server</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;server&#39;</span><span class="p">,</span> <span class="s1">&#39;Run server&#39;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">&#39;connect&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;watch&#39;</span>
+  <span class="p">]);</span>
+
+<span class="p">};</span></code></pre></div>
+
+<p><br /></p>
+<h3>At The End Of All Of This</h3>
+<p>Now using Grunt is easy.</p>
+
+<div class="highlight"><pre><code class="bash">grunt <span class="c"># Runs the default task</span>
+grunt build <span class="c"># Runs the build task</span>
+grunt dist <span class="c"># Our dist task</span>
+grunt jshint <span class="c"># To run the jshint task</span>
+grunt concat <span class="c"># Our concat task</span></code></pre></div>
+
+<p>And that’s all there is too it. From here Grunt is not a bad racket.</p>
+
+</div>
+
+        </div>
+        <!-- content -->
+
+        <div class="footer">
+
+          <div class="contact">
+            <p>Learning and loving</p>
+            <p><strong>Design, Code, Push</strong>.</p>
+            <p>Married the woman of my dreams.</p>
+          </div>
+        </div>
+        <!-- /footer -->
+      </div>
+      <!-- /site -->
+    </div>
+    <!-- /container -->
+
+    <script>
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = '/css/screen.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+          document.getElementById('site').className += ' active';
+        }, 800);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script>
+    
+  </body>
+</html>
