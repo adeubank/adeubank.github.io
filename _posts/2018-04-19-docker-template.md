@@ -22,6 +22,8 @@ The trouble for me coming into Docker was that most of the commands were so verb
 
 
 
+
+
 {% highlight ruby %}
 def print_hi(name)
   puts "Hi, #{name}"
