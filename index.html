@@ -7,9 +7,6 @@ hero_img: /images/welcome.jpg
 
   <h1 class="page-heading">Allen Eubank</h1>
 
-  {% capture welcome %}{% include welcome.markdown %}{% endcapture %}
-  {{ welcome | markdownify }}
-
   {% if site.posts.size > 0 %}
     <h2>Recent Posts</h2>
     {% for post in site.posts %}
