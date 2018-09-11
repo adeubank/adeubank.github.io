@@ -20,6 +20,7 @@ gem "minima"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
 	gem "github-pages"
+  gem 'jekyll-compose'
 end
 
 # Please add the following to your Gemfile to avoid polling for changes:
