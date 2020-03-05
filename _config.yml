@@ -21,7 +21,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://www.alleneubank.com" # the base hostname & protocol for your site
 github_username:  adeubank
 repository: adeubank/adeubank.github.io
-
+destination: public
 # Build settings
 markdown: kramdown
 theme: minima
