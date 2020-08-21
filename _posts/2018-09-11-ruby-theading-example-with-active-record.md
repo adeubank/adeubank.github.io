@@ -3,7 +3,7 @@ layout: post
 title: Ruby Theading Example with Active Record
 date: 2018-09-11 09:02 -0700
 categories: programming
-tags: ruby thread concurrency
+tags: ruby concurrency
 ---
 I came across a problem where a slow processing job needed to run.
 The results of the job did not need to be available in _real time_ so we
