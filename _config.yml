@@ -16,9 +16,9 @@
 title: Allen Eubank
 email: adeubank@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Allen Eubank is an entrepreneur, technologist, amateur e-sports athlete, and all-around geek from Los Angeles, California.
+  Allen Eubank is software engineer chronicling his journey through web, mobile and crypto.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://www.alleneubank.com" # the base hostname & protocol for your site
+url: "https://www.alleneubank.com" # the base hostname & protocol for your site
 github_username:  adeubank
 repository: adeubank/adeubank.github.io
 

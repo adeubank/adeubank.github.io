@@ -5,17 +5,21 @@ hero_img: /images/welcome.jpg
 
 <div class="home">
 
-  <h1 class="page-heading">Allen Eubank</h1>
+  <h1 class="page-heading">Allen Eubank is software engineer chronicling his journey through web, mobile and crypto.</h1>
 
-  {% if site.posts.size > 0 %}
+  <br>
+  <section>
+
+    {% if site.posts.size > 0 %}
     <h2>Recent Posts</h2>
     {% for post in site.posts %}
     <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
     {% endfor %}
 
     <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-  {% endif %}
+    {% endif %}
 
+  </section>
   {% capture welcome %}{% include welcome.markdown %}{% endcapture %}
   {{ welcome | markdownify }}
 
