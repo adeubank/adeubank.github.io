@@ -14,8 +14,8 @@ $spacing-unit:     30px;
 
 $text-color:       #111;
 $background-color: #fefefe;
-$brand-color:      #FF8F00;
-$secondary-color:  #00A8FF;
+$brand-color:      indigo;
+$secondary-color:  goldenrod;
 
 $grey-color:       #828282;
 $grey-color-light: lighten($grey-color, 40%);
@@ -53,7 +53,7 @@ $on-laptop:        800px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-  color: $secondary-color;
+  color: $grey-color;
 }
 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight {
@@ -73,4 +73,11 @@ h2 {
 
 section {
   margin: 2rem 0;
+}
+
+img + em {
+  display: block;
+  text-align: center;
+  font-size: $base-font-size * 0.8;
+  color: $grey-color;
 }
